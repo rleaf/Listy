@@ -3,7 +3,7 @@ const fs = require('fs');
 const client = new Discord.Client();
 const { prefix } = require('./auth.json');
 
-const token = 'NzA5OTM0MzMyNTI5MjEzNTQw.XrtJ1A.T7as-nV41OodoWM0npRfJ1SmOwM';
+const token = 'NzA5OTM0MzMyNTI5MjEzNTQw.XrxxsA.dnAezYUX0faIq9Iq38Oz8UUrCtU';
 
 
 client.on('ready', () => {
