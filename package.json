@@ -1,0 +1,22 @@
+{
+  "name": "listy",
+  "version": "1.0.0",
+  "description": "listo",
+  "main": "ye.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rleaf/Listy.git"
+  },
+  "author": "Owl#4624",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rleaf/Listy/issues"
+  },
+  "homepage": "https://github.com/rleaf/Listy#readme",
+  "dependencies": {
+    "discord.js": "^12.2.0"
+  }
+}
