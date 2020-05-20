@@ -33,9 +33,18 @@ client.on('message', async msg => {
    // const command = args.shift().toLowerCase();
 
 
-   if (msg.content === `${prefix}avatar`) {
-      msg.reply(msg.author.displayAvatarURL());
-   };
+   // if (msg.content === `${prefix}avatar`) {
+   //    msg.reply(msg.author.displayAvatarURL());
+   // };
+
+   if (msg.content.startsWith(`${prefix}avatar`)) {
+      const user = msg.mentions.users.first() || msg.author;
+      const avatarEmbed = new Discord.MessageEmbed()
+         .setColor(0x333333)
+         .setAuthor(user.username)
+         .setImage(user.displayAvatarURL());
+      msg.channel.send(`was dis?`, avatarEmbed);
+   }
 
    if (msg.content === `${prefix}list`) {
       const listembed = new Discord.MessageEmbed()
@@ -45,13 +54,17 @@ client.on('message', async msg => {
          .setFooter('Listy', 'https://cdn.discordapp.com/avatars/709934332529213540/4de87717e63539f57f302c8eeef8e458.png')
          .setDescription(fs.readFileSync('watch.txt', 'utf-8'));
 
-      msg.channel.send(`her u go budy`, listembed);
+      msg.channel.send(`in dev mode - list may be inaccurate`, listembed);
+      // msg.channel.send(`her u go budy`, listembed);
       // msg.author.send(listembed);
    }
 
    if (msg.content.startsWith(`${prefix}add`)) {
+      fs.appendFile('watch.txt', args + "\n", 'utf-8', (err) => {
+         if (err) throw err;
+         console.log('appended successfully.');
+      });
       msg.channel.send(randomreply);
-      fs.appendFileSync('watch.txt', args + "\n")
    }
 
    if (msg.content.startsWith(`${prefix}remove`)) {
@@ -65,7 +78,6 @@ client.on('message', async msg => {
          fs.writeFile('watch.txt', removeWhite, (err) => {
             if (err) throw err;
             console.log("updated file");
-
          });
       });
 

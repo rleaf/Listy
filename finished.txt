@@ -8,6 +8,7 @@ Gladiator
 Bad Times at the El Royale
 Black Dynamite
 Ford v Ferrari
+Kill Bill vol 1
 Kill Bill vol 2
 Lord of the Rings: Fellowship of the Ring
 Lord of the Rings: The Two Towers
@@ -17,3 +18,5 @@ JoJo Rabbit
 Knives Out
 Once Upon A Time in Hollywood
 Kung Fu Yoga
+Seven Psychopaths
+The Lobster
