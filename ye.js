@@ -3,8 +3,7 @@ const fs = require('fs');
 const client = new Discord.Client();
 const { prefix, token } = require('./auth.json');
 
-const reply = ["okey dokey boomer!", "oke", "!", "pepehands, shit movie", "yuppers", ":]", "big hunka monka", "omg pog movie"]
-const randomreply = [reply[Math.floor(Math.random() * (reply.length + 1))]];
+const reply = ["!", ":]", ":)", "C:", ":O"];
 
 client.on('ready', () => {
    client.user.setPresence({
@@ -50,22 +49,26 @@ client.on('message', async msg => {
 
    if (msg.content === `${prefix}list`) {
       const listembed = new Discord.MessageEmbed()
-         .setTitle("Mowovie List!")
+         .setTitle("Moovie List!")
          .setColor(0x51ED26)
          .setURL('https://www.youtube.com/watch?v=j0lN0w5HVT8')
          .setFooter('Listy', 'https://cdn.discordapp.com/avatars/709934332529213540/4de87717e63539f57f302c8eeef8e458.png')
          .setDescription(fs.readFileSync('watch.txt', 'utf-8'));
 
-      msg.channel.send(`her u go budy`, listembed);
+      msg.channel.send(listembed);
    }
 
 
    if (msg.content.startsWith(`${prefix}add`)) {
-      fs.appendFile('watch.txt', args + "\n", 'utf-8', (err) => {
-         if (err) throw err;
-         console.log('appended successfully.');
-      });
-      msg.channel.send(randomreply);
+      if (msg.member.roles.cache.find(r => r.name === "New Bois")) {
+         msg.channel.send(`no >:(`)
+      } else {
+         fs.appendFile('watch.txt', args + "\n", 'utf-8', (err) => {
+            if (err) throw err;
+            console.log('appended successfully.');
+         });
+         msg.channel.send(reply[Math.floor(Math.random() * (reply.length))]);
+      }
    }
 
 
@@ -84,6 +87,8 @@ client.on('message', async msg => {
       });
 
       fs.appendFileSync('finished.txt', args + "\n");
+
+      msg.channel.send(reply[Math.floor(Math.random() * (reply.length))]);
    }
 
 

@@ -1,12 +1,1 @@
-Parasite
-Polar
-Ocean 11
-13 Angry Men
-The Bank Job
-Audition
-Whiplash
-Nightcrawler
-The Nice Guys
-Interstellar
-Moonrise Kingdom
-Army of One
+ParasitePolarOcean 1113 Angry MenThe Bank JobAuditionWhiplashNightcrawlerThe Nice GuysInterstellarMoonrise KingdomArmy of One
