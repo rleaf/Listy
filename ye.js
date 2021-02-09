@@ -1,15 +1,10 @@
 const Discord = require('discord.js');
 const fs = require('fs');
 const client = new Discord.Client();
-const { prefix } = require('./auth.json');
-
-const token = 'NzA5OTM0MzMyNTI5MjEzNTQw.XrxxsA.dnAezYUX0faIq9Iq38Oz8UUrCtU';
-
+const { prefix, token } = require('./auth.json');
 
 const reply = ["okey dokey boomer!", "oke", "!", "pepehands, shit movie", "yuppers", ":]", "big hunka monka", "omg pog movie"]
 const randomreply = [reply[Math.floor(Math.random() * (reply.length + 1))]];
-
-
 
 client.on('ready', () => {
    client.user.setPresence({
@@ -28,6 +23,7 @@ client.on('message', async msg => {
    }
 
    if (!msg.content.startsWith(prefix) || msg.author.bot) return;
+
    const args = msg.content.split(' ').splice(1).join(' ');
    // const args = msg.content.slice(prefix.length).split(' ');
    // const command = args.shift().toLowerCase();
@@ -36,6 +32,11 @@ client.on('message', async msg => {
    // if (msg.content === `${prefix}avatar`) {
    //    msg.reply(msg.author.displayAvatarURL());
    // };
+
+   if(msg.content === `${prefix}help`) {
+      msg.channel.send(`${prefix}list, ${prefix}add, ${prefix}remove, ${prefix}finished`);
+   }
+
 
    if (msg.content.startsWith(`${prefix}avatar`)) {
       const user = msg.mentions.users.first() || msg.author;
@@ -46,6 +47,7 @@ client.on('message', async msg => {
       msg.channel.send(`was dis?`, avatarEmbed);
    }
 
+
    if (msg.content === `${prefix}list`) {
       const listembed = new Discord.MessageEmbed()
          .setTitle("Mowovie List!")
@@ -54,10 +56,9 @@ client.on('message', async msg => {
          .setFooter('Listy', 'https://cdn.discordapp.com/avatars/709934332529213540/4de87717e63539f57f302c8eeef8e458.png')
          .setDescription(fs.readFileSync('watch.txt', 'utf-8'));
 
-      msg.channel.send(`in dev mode - list may be inaccurate`, listembed);
-      // msg.channel.send(`her u go budy`, listembed);
-      // msg.author.send(listembed);
+      msg.channel.send(`her u go budy`, listembed);
    }
+
 
    if (msg.content.startsWith(`${prefix}add`)) {
       fs.appendFile('watch.txt', args + "\n", 'utf-8', (err) => {
@@ -66,6 +67,7 @@ client.on('message', async msg => {
       });
       msg.channel.send(randomreply);
    }
+
 
    if (msg.content.startsWith(`${prefix}remove`)) {
       fs.readFile('watch.txt', 'utf-8', function (err, data) {
@@ -82,8 +84,8 @@ client.on('message', async msg => {
       });
 
       fs.appendFileSync('finished.txt', args + "\n");
-
    }
+
 
    if (msg.content.startsWith(`${prefix}finished`)) {
       const finembed = new Discord.MessageEmbed()
@@ -96,6 +98,6 @@ client.on('message', async msg => {
       msg.channel.send(finembed);
       // msg.author.send(finembed);
    }
-})
+});
 
 client.login(token);

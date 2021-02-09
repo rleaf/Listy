@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/rleaf/Listy#readme",
   "dependencies": {
-    "discord.js": "^12.2.0"
+    "discord.js": "^12.2.0",
+    "imdb-api": "^4.4.1"
   }
 }
