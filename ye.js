@@ -6,11 +6,8 @@ const { prefix, token } = require('./auth.json');
 const reply = ["!", ":]", ":)", "C:", ":O"];
 
 client.on('ready', () => {
-   client.user.setPresence({
-      game: {
-         name: "poggers",
-         type: "Playing"
-      }
+   client.user.setActivity("movies! Type -help", {
+      type: "WATCHING"  
    });
    console.log('client is cooked');
 })
@@ -24,13 +21,6 @@ client.on('message', async msg => {
    if (!msg.content.startsWith(prefix) || msg.author.bot) return;
 
    const args = msg.content.split(' ').splice(1).join(' ');
-   // const args = msg.content.slice(prefix.length).split(' ');
-   // const command = args.shift().toLowerCase();
-
-
-   // if (msg.content === `${prefix}avatar`) {
-   //    msg.reply(msg.author.displayAvatarURL());
-   // };
 
    if(msg.content === `${prefix}help`) {
       msg.channel.send(`${prefix}list, ${prefix}add, ${prefix}remove, ${prefix}finished`);
