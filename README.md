@@ -1,2 +1,2 @@
 # Listy
-Listy discord bot for personal use
+Movie discord bot for personal use
