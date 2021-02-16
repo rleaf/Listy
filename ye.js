@@ -24,7 +24,7 @@ client.on('message', async msg => {
 
    if(msg.content === `${prefix}help`) {
       try {
-         msg.channel.send(`${prefix}list, ${prefix}add, ${prefix}remove, ${prefix}finished`);
+         msg.channel.send(`${prefix}list, ${prefix}search, ${prefix}add, ${prefix}remove, ${prefix}finished`);
       } catch (err) {
          msg.channel.send(`I've run into an error: ` +  err);
       }
@@ -40,6 +40,17 @@ client.on('message', async msg => {
       msg.channel.send(`was dis?`, avatarEmbed);
    }
 
+   if (msg.content.startsWith(`${prefix}search`)) {
+      try {
+         const gSearch = new Discord.MessageEmbed()
+            .setTitle(`Here's a google search of the movie ${args}`)
+            .setURL(`https://www.google.com/search?q=${args}+movie`);
+
+         msg.channel.send(gSearch);
+      } catch (err) {
+         msg.channel.send(`I've run into an error: ` + err);
+      }
+   }
 
    if (msg.content === `${prefix}list`) {
       try {
