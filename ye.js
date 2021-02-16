@@ -42,13 +42,18 @@ client.on('message', async msg => {
 
    if (msg.content.startsWith(`${prefix}search`)) {
       try {
+
+         if (args === '') {
+            msg.channel.send(`No arguments given, sadge.`)
+            return;
+         }
+
          gSearchArgs = args.split(' ').join('+');
          const gSearch = new Discord.MessageEmbed()
             .setTitle(`Here's a google search of the movie ${args}`)
             .setURL(`https://www.google.com/search?q=${gSearchArgs}+movie`);
 
          msg.channel.send(gSearch);
-         console.log(args);
       } catch (err) {
          msg.channel.send(`I've run into an error: ` + err);
       }
@@ -72,6 +77,12 @@ client.on('message', async msg => {
 
    if (msg.content.startsWith(`${prefix}add`)) {
       try {
+
+         if (args === '') {
+            msg.channel.send(`No arguments given, sadge.`)
+            return;
+         }
+         
          // Forbid anybody with the role 'New Bois' from adding movies to the list
          if (msg.member.roles.cache.find(r => r.name === "New Bois")) {
             msg.channel.send(`no >:(`)
@@ -90,6 +101,12 @@ client.on('message', async msg => {
 
    if (msg.content.startsWith(`${prefix}remove`)) {
       try {
+
+         if (args === '') {
+            msg.channel.send(`No arguments given, sadge.`)
+            return;
+         }
+
          fs.readFile('watch.txt', 'utf-8', function (err, data) {
             if (err) throw error;
    
