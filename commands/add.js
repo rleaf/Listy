@@ -13,13 +13,13 @@ module.exports = {
          
          // Forbid anybody with the role 'New Bois' from adding movies to the list
          if (msg.member.roles.cache.find(r => r.name === "New Bois")) {
-            msg.channel.send(`no >:(`)
+            msg.channel.send(`no >:(`);
          } else {
             fs.appendFile('txt/watch.txt', args + "\n", 'utf-8', (err) => {
                if (err) throw err;
                console.log('appended successfully.');
             });
-            msg.channel.send(reply[Math.floor(Math.random() * (reply.length))]);
+            msg.channel.send(`Added **${args}** to the list! ` + reply[Math.floor(Math.random() * (reply.length))]);
          }
       } catch (err) {
          msg.channel.send(`I've run into an error: ` +  err);

@@ -6,7 +6,7 @@ module.exports = {
    description: 'HELP?',
    execute(msg) {
          try {
-            msg.channel.send(`${prefix}list, ${prefix}search, ${prefix}add, ${prefix}remove, ${prefix}finished`);
+            msg.channel.send(`${prefix}list, ${prefix}search, ${prefix}add, ${prefix}remove, ${prefix}finished, ${prefix}delete`);
          } catch (err) {
             msg.channel.send(`I've run into an error: ` +  err);
       }
