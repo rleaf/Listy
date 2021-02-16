@@ -42,11 +42,13 @@ client.on('message', async msg => {
 
    if (msg.content.startsWith(`${prefix}search`)) {
       try {
+         gSearchArgs = args.split(' ').join('+');
          const gSearch = new Discord.MessageEmbed()
             .setTitle(`Here's a google search of the movie ${args}`)
-            .setURL(`https://www.google.com/search?q=${args}+movie`);
+            .setURL(`https://www.google.com/search?q=${gSearchArgs}+movie`);
 
          msg.channel.send(gSearch);
+         console.log(args);
       } catch (err) {
          msg.channel.send(`I've run into an error: ` + err);
       }
