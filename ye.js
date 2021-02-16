@@ -22,11 +22,6 @@ client.on('ready', () => {
 
 client.on('message', async msg => {
 
-   // :)
-   if (msg.content === ":)") {
-      msg.channel.send(":)");
-   }
-
    if (!msg.content.startsWith(prefix) || msg.author.bot) return;
 
    // Really not the best way to handle this, but works for now
