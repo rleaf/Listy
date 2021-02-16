@@ -9,7 +9,7 @@ module.exports = {
          if (args) {
             switch (args) {
                case 'list':
-                  msg.channel.send(`*-list* gives a list of the movie moron.`);
+                  msg.channel.send(`*-list* gives a list of the movies moron.`);
                   break;
                case 'search':
                   msg.channel.send(`*-search* will link a Google search with 'movie' appended.`);
