@@ -10,6 +10,11 @@ module.exports = {
       .setDescription('Delete from the list.'),
    async execute(interaction) {
       const file = JSON.parse(fs.readFileSync(path.resolve(__dirname, `../lists/list.json`), 'utf-8'))
+      if (file.length === 0) {
+         interaction.reply({ content: `There's nothing to delete dumbo.`, flags: MessageFlags.Ephemeral })
+         return
+      }
+
       const select = new StringSelectMenuBuilder()
          .setCustomId(interaction.id)
          .setPlaceholder('select')
