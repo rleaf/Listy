@@ -1,19 +1,31 @@
+const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
+const path = require('path')
+const fs = require('fs');
+
 module.exports = {
-   name: 'list',
-   description: 'displays list',
-   execute(msg, args, Discord, fs) {
-      try {
-         // args = args;
-         const listembed = new Discord.MessageEmbed()
-            .setTitle("Moovie List!")
-            .setColor(0x51ED26)
-            .setURL('https://www.youtube.com/watch?v=TiC8pig6PGE')
-            .setFooter('Listy', 'https://cdn.discordapp.com/avatars/709934332529213540/4de87717e63539f57f302c8eeef8e458.png')
-            .setDescription(fs.readFileSync('txt/watch.txt', 'utf-8'));
-   
-         msg.channel.send(listembed);
-      } catch (err) {
-         msg.channel.send(`I've run into an error: ` +  err);
-      }
-   }
-}
+   data: new SlashCommandBuilder()
+      .setName('list')
+      .setDescription('Get list.')
+      .addStringOption(option =>
+         option.setName('category')
+            .setDescription('Do you want to see the current list or the watched list?')
+            .setRequired(true)
+            .addChoices(
+               { name: 'List.', value: '1' },
+               { name: 'Watched.', value: '0' }
+            )
+      ),
+   async execute(interaction) {
+      const url = (parseInt(interaction.options.getString('category'))) ? 'list' : 'watched'
+      const title = (parseInt(interaction.options.getString('category'))) ? 'ヽ(＠⌒▽⌒＠)ﾉ The List ヽ(＠⌒▽⌒＠)ﾉ' : '(◡︿◡✿)'
+      const list = JSON.parse(fs.readFileSync(path.resolve(__dirname, `../lists/${url}.json`), 'utf-8'))
+
+      const embed = new EmbedBuilder()
+         .setTitle(title)
+         .addFields(
+            ...list.map(o => ({ name: `${o.Title} (${o.Year})`, value: `[IMDB](https://www.imdb.com/title/${o.imdbID}) (${o.Type})` }))
+         )
+         
+      await interaction.reply({ embeds: [embed] });
+   },
+};

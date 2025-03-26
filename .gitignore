@@ -1,5 +1,4 @@
 /node_modules
-# Peronal bot, not an issue
-listy.pem
-auth.json
 /txt
+/lists/*
+.env

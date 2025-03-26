@@ -1,51 +1,65 @@
-const Discord = require('discord.js');
-const fs = require('fs');
-const { prefix, token } = require('./auth.json');
+const { Client, Collection, Events, GatewayIntentBits, MessageFlags, ActivityType } = require('discord.js')
+const path = require('node:path')
+const fs = require('node:fs')
+const dotenv = require('dotenv')
 
-const client = new Discord.Client();
-client.commands = new Discord.Collection();
+class Listy {
+   constructor() {
+      dotenv.config()
+      this.client = new Client({ intents: [GatewayIntentBits.Guilds] })
+      this.client.commands = new Collection()
 
-const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
+      this.client.once(Events.ClientReady, readyClient => {
+         this.client.user.setActivity('movies!', { type: ActivityType.Watching })
+         console.log(`Ready! Logged in as ${readyClient.user.tag}`)
+      })
 
-
-for (const file of commandFiles) {
-	const command = require(`./commands/${file}`);
-	client.commands.set(command.name, command);
-}
-
-client.on('ready', () => {
-   client.user.setActivity("movies! Type -help", {
-      type: "WATCHING"  
-   });
-   console.log('client is cooked');
-})
-
-client.on('message', async msg => {
-
-   if (!msg.content.startsWith(prefix) || msg.author.bot) return;
-
-   // Really not the best way to handle this, but works for now
-   const args2 = msg.content.substr(1).split(' ')
-   const command = args2.shift()
-   const args = msg.content.split(' ').splice(1).join(' ');
-
-   if (!client.commands.has(command)) return;
-
-   try {
-      client.commands.get(command).execute(msg, args, Discord, fs);
-   } catch (error) {
-      console.error(error);
-      msg.reply('There was an error trying to execute that command!');
+      this.initCommands()
+      this.interactionHandler()
+      this.start()
    }
 
-   // Template so I don't forget if I need for future reference.
-   // if(msg.content === `${prefix}help`) {
-   // 
-   // }
-   // 
-   // if (msg.content.startsWith(`${prefix}search`)) {
-   //
-   // }
-});
+   initCommands() {
+      const commandsPath = path.join(__dirname, 'commands')
+      const commands = fs.readdirSync(commandsPath)
 
-client.login(token);
+      for (const command of commands) {
+         const cPath = path.join(commandsPath, command)
+         const c = require(cPath)
+         if ('data' in c && 'execute' in c) {
+            this.client.commands.set(c.data.name, c)
+         } else {
+            console.log(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`)
+         }
+      }
+   }
+
+   interactionHandler() {
+      this.client.on(Events.InteractionCreate, async interaction => {
+         if (!interaction.isChatInputCommand()) return
+         const command = interaction.client.commands.get(interaction.commandName)
+
+         if (!command) {
+            console.error(`No command matching ${interaction.commandName} was found.`)
+            return
+         }
+
+         try {
+            await command.execute(interaction)
+         } catch (error) {
+            console.error(error)
+            if (interaction.replied || interaction.deferred) {
+               await interaction.followUp({ content: 'There was an error while executing this command!', flags: MessageFlags.Ephemeral })
+            } else {
+               await interaction.reply({ content: 'There was an error while executing this command!', flags: MessageFlags.Ephemeral })
+            }
+         }
+      })
+   }
+
+   start() {
+      this.client.login(process.env.TOKEN)
+   }
+}
+
+const listy = new Listy()
