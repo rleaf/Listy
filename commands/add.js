@@ -76,15 +76,17 @@ module.exports = {
          }
          file.push(donut)
          fs.writeFileSync(path.resolve(__dirname, `../lists/list.json`), JSON.stringify(file), 'utf-8')
-         // console.log(JSON.stringify(donut), 'val')
-
+         
          const embed = new EmbedBuilder()
             .setTitle(`${donut.Title} (${donut.Year})`)
             .setColor(0x000000)
             .setURL(`https://www.imdb.com/title/${donut.imdbID}`)
             .setDescription(`Added to list!`)
-            .setThumbnail(donut.Poster)
             .addFields({ name: '', value: roulette[Math.floor(Math.random() * roulette.length)] })
+
+         if (donut.Poster !== 'N/A') {
+            embed.setImage(donut.Poster)
+         }
 
          if (i.channel) {
             interaction.deleteReply()

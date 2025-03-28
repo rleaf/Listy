@@ -62,4 +62,7 @@ class Listy {
    }
 }
 
-const listy = new Listy()
+// const listy = new Listy()
+(() => {
+   new Listy()
+})()
